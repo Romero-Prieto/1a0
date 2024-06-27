@@ -6,7 +6,7 @@ order   = Z + size(xo,2);
 fx      = exp(B{1}(:,1:order)*X');
 
 if isequal(char(table2array(B{2}(1,4))),'q')
-    q = [zeros(1,tables);fx]
+    q = [zeros(1,tables);fx];
 elseif isequal(char(table2array(B{2}(1,4))),'m')
     m = fx;
     n = x{1}(2:end) - x{1}(1:end-1);

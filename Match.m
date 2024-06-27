@@ -105,18 +105,17 @@ end
 
 
 function dLa = ModelD(B,xo,x,SET,match,lambda)
-[maTCh,~,~,~,MSE] = Model(B,xo,x,SET,match,lambda);
-d                 = 0.0001;
-for h = 1:1:size(xo,2)
-    xU          = xo;
-    xU(:,h)     = xU(:,h) + d;
-    [~,~,LU,EU] = Model(B,xU,x,SET,match,lambda);
-    xL          = xo;
-    xL(:,h)     = xL(:,h) - d;
-    [~,~,LL,EL] = Model(B,xL,x,SET,match,lambda);
-    dLa(:,h)    = (LU - LL)/(2*d);
-    dEa(:,h)    = -(EU - EL)/(2*d);
-    clear xU xL LU LL EU EL maTCU
+maTCh = Model(B,xo,x,SET,match,lambda);
+d     = 0.0001;
+for h = 1:size(xo,2)
+    xU       = xo;
+    xU(:,h)  = xU(:,h) + d;
+    [~,~,LU] = Model(B,xU,x,SET,match,lambda);
+    xL       = xo;
+    xL(:,h)  = xL(:,h) - d;
+    [~,~,LL] = Model(B,xL,x,SET,match,lambda);
+    dLa(:,h) = (LU - LL)/(2*d);
+    clear xU xL LU LL EU maTCU
 end
-dLa               = [dLa,recode(-log(maTCh{2}./match{2}),-inf,0)];
+dLa   = [dLa,recode(-log(maTCh{2}./match{2}),-inf,0)];
 end

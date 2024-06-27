@@ -115,7 +115,7 @@ for h = 1:size(xo,2)
     xL(:,h)  = xL(:,h) - d;
     [~,~,LL] = Model(B,xL,x,SET,match,lambda);
     dLa(:,h) = (LU - LL)/(2*d);
-    clear xU xL LU LL EU maTCU
+    clear xU xL LU LL
 end
 dLa   = [dLa,recode(-log(maTCh{2}./match{2}),-inf,0)];
 end

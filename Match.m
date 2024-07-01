@@ -9,7 +9,6 @@ lambda            = ones(size(match{2}));
 iNdeX             = (1:tables)';
 mIn               = zeros(tables,1);                        % Define an indicator of convergent solution
 d                 = 0.0001;                                 % Define the proximity value to calculate a numerical derivative
-H                 = 20;
 XA                = 1.25*xo;
 XO                = NaN(size(xo));
 lAMBda            = lambda;
@@ -47,28 +46,6 @@ for r = 1:R
         end 
     end
     clear k test
-    
-    for h = 1:H % adjusting the step, but avoiding "flat solutions" 
-        bothK   = both + change;
-        xK      = bothK(:,1:size(xo,2));
-        lambdaK = bothK(:,size(xo,2) + 1:end);
-        [~,qts] = Model(B,xK,x,SET,match,lambdaK);
-        test0   = max(qts(2:end,:) == 0);
-        qts     = (1 - qts(2:end,:))./(1 - qts(1:end - 1,:));
-        test1   = max(qts >= 1);
-        test2   = max(qts == 0);
-        test3   = max(isnan(qts));
-        test4   = (abs(xK(:,2:end)) > 20)'; %switch%
-        test    = 1 - 0.7*max([test0;test1;test2;test3;test4])';
-        
-        test    = 1;
-        if min(test) == 1
-            break
-        else
-            change = test.*change;
-        end
-    end
-    clear maTCh bothK xK lambdaK test test1 test2 test3 test4
     
     bothK              = both + change;
     xo                 = bothK(:,1:size(xo,2));
